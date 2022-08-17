@@ -1,0 +1,133 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block style %}
+<style>
+.border-md {
+    border-width: 2px;
+}
+
+.btn-facebook {
+    background: #405D9D;
+    border: none;
+}
+
+.btn-facebook:hover, .btn-facebook:focus {
+    background: #314879;
+}
+
+.btn-google {
+    background: #42AEEC;
+    border: none;
+    text-decoration: none;
+}
+
+.btn-google:hover, .btn-google:focus {
+    background: #1799e4;
+}
+
+
+.form-control:not(select) {
+    padding: 0.6rem 0.5rem;
+}
+
+select.form-control {
+    height: 52px;
+    padding-left: 0.5rem;
+}
+
+.form-control::placeholder {
+    color: #ccc;a
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+.form-control:focus {
+    box-shadow: none;
+}
+.login-page {
+    margin-top:100px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container login-page">
+
+    <div class="row py-5 mt-5 align-items-center">
+        <!-- For Demo Purpose -->
+        <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+            <img src="https://bootstrapious.com/i/snippets/sn-registeration/illustration.svg" alt="" class="img-fluid mb-3 d-none d-md-block">
+            <h1></h1>
+            <p class="font-italic text-muted mb-0"></p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="col-md-7 col-lg-6 ml-auto">
+             <h1 class="title text-center">Login</h1>
+            <hr/>
+            <div class="clearfix"><br></div>
+{% for key, value in form.errors.items %}
+           {% if key == '__all__' %} <p class="text-error text-danger">&nbsp;The username and/or password you specified are not correct.</p> {% endif %}
+{% endfor %}
+            <form action="{% url 'account_login' %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <!-- Email -->
+                    <!-- <div class="col-lg-6 mb-4">
+                        <label for="id_login" class="form-label">Username</label>
+                        <input id="id_login" type="text" name="login" placeholder="Username" class="form-control bg-white border-left-0 border-md">
+                        {% if form.errors.login %}
+                            &nbsp;<p class="text-error text-danger">{{ form.errors.login.as_text }}</p>
+                        {% endif %}
+                    </div> -->
+
+                    <!-- Password -->
+                    <!-- <div class="col-lg-6 mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input id="password" type="password" name="password" placeholder="Password" class="form-control bg-white border-left-0 border-md">
+                        {% if form.errors.password %}
+                            &nbsp;<p class="text-error text-danger">{{ form.errors.password.as_text }}</p>
+                        {% endif %}
+                    </div> -->
+
+                    <!-- Submit Button -->
+                    <!-- <div class="d-grid gap-2">
+                        <button class="btn btn-warning" type="submit">
+                            <span class="font-weight-bold">Login</span>
+                        </button>
+                    </div> -->
+
+                    <!-- Divider Text -->
+                    <!-- <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+                        <div class="border-bottom w-100 ml-5"></div>
+                        <span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
+                        <div class="border-bottom w-100 mr-5"></div>
+                    </div> -->
+
+                    <!-- Social Login -->
+                    <div class="d-grid gap-2">
+                        <a class="btn" href="{% provider_login_url 'facebook' %}">
+                            <img src="{% static 'img/Facebook.png' %}" alt="Login with facebook" width="400"> 
+                        </a>
+                    </div>
+
+                     <!-- Divider Text -->
+                    <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+                        <div class="border-bottom w-100 ml-5"></div>
+                    </div>
+
+                    <!-- Already Registered -->
+                    <!-- <div class="text-center w-100">
+                        <p class="text-secondary font-weight-bold">If Not Registered ?
+                            <a href="{% url 'account_signup' %}" class="text-primary ml-2"> Create An Account Here </a>
+                        </p>
+                    </div> -->
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
