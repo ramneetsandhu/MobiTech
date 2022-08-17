@@ -43,7 +43,7 @@ class User(AbstractUser):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True, db_index=True)
     password = models.CharField(max_length=255)
-    profile_photo = models.ImageField(upload_to='img')
+    profile_photo = models.ImageField(upload_to='img',null=True,blank=True)
     address = models.CharField(max_length=255)
     city = models.CharField(max_length=50)
     phone = models.CharField(max_length=12, null=True)
@@ -68,9 +68,10 @@ class User(AbstractUser):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-        img = Image.open(self.profile_photo.path)
-        if img.mode in ("RGBA", "P"): img = img.convert("RGB")
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.profile_photo.path)
+        if self.profile_photo:
+            img = Image.open(self.profile_photo.path)
+            if img.mode in ("RGBA", "P"): img = img.convert("RGB")
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size)
+                img.save(self.profile_photo.path)
